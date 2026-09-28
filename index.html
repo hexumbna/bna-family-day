@@ -1051,13 +1051,6 @@ img{ max-width: 100%; display:block; }
 
 /* Business detail */
 .detail-top{ display:flex; align-items:center; gap:16px; padding: 22px 20px 6px; max-width:560px; margin:0 auto; }
-.detail-num{
-  width: 40px; height:40px; border-radius:50%;
-  background: var(--terracotta); color:var(--white);
-  display:flex; align-items:center; justify-content:center;
-  font-weight:800; font-size:16px; flex:none;
-}
-.detail-num.stamped{ background: var(--ink); }
 .detail-logo{
   width: 62px; height:62px; border-radius:16px;
   border:1px solid var(--line); background:var(--white);
@@ -1065,7 +1058,6 @@ img{ max-width: 100%; display:block; }
 }
 .detail-name{ font-size: 22px; margin-top: 18px; }
 .detail-freebie{ color: var(--ink); font-size: 15px; margin-top:8px; line-height:1.5; }
-.detail-address{ color: var(--taupe); font-size: 13.5px; margin-top: 6px; }
 
 .stamp-zone{
   margin: 22px 20px 0;
@@ -1240,9 +1232,7 @@ img{ max-width: 100%; display:block; }
   background: var(--terracotta-tint); border:1.5px solid var(--terracotta);
   border-radius: var(--radius-md);
 }
-.redeem-qty-card.redeem-qty-done{ background:#EFEAE0; border-color:var(--ink); }
 .redeem-qty-label{ font-size:11.5px; font-weight:800; letter-spacing:.05em; color:var(--terracotta-dark); }
-.redeem-qty-done .redeem-qty-label{ color:var(--ink); }
 .redeem-qty-big{ font-size:17px; font-weight:800; color:var(--ink); margin-top:3px; }
 
 .confirm-overlay{
@@ -1421,11 +1411,10 @@ document.getElementById("splashImg").src = LOGO_BNA;
 </script>
 <script>
 /* ===================== Passport sticker artwork ===================== */
-/* Each sticker is a small hand-built flat-illustration SVG, independent of
-   the business logos. "full" is shown before stamping animation; "bitten"
-   is the permanent completed sticker left in the passport. Bite marks are
-   drawn as white cutouts that read correctly against the white sticker
-   badge (see .sticker-badge) regardless of the page background behind it. */
+/* Each sticker is a small, complete, clean flat-illustration SVG for a
+   business's offering — independent of the business logo. There is a
+   single "full" state used both for the stamp animation and as the
+   permanent completed sticker (no bite marks / partially-consumed art). */
 var STICKERS = {
 
   tonys: { // taco
@@ -1435,13 +1424,6 @@ var STICKERS = {
       '<path d="M17 49 l6 -11 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 11" fill="none" stroke="#6FA05A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<circle cx="33" cy="45" r="3.4" fill="#D24B3B"/><circle cx="52" cy="42" r="3.4" fill="#D24B3B"/><circle cx="69" cy="46" r="3.4" fill="#D24B3B"/>' +
       '<path d="M26 57 q2 8 -0.5 14 M40 58 q2 9 -1 15 M58 58 q-1 9 2 15 M73 57 q-2 8 1 14" stroke="#F2C94C" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-      '</svg>',
-    bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M10 54 C10 28 28 14 50 14 C72 14 90 28 90 54 C90 66 76 58 50 58 C24 58 10 66 10 54 Z" fill="#E8AE47" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M17 49 l6 -11 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 11" fill="none" stroke="#6FA05A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<circle cx="33" cy="45" r="3.4" fill="#D24B3B"/><circle cx="52" cy="42" r="3.4" fill="#D24B3B"/>' +
-      '<path d="M26 57 q2 8 -0.5 14 M40 58 q2 9 -1 15" stroke="#F2C94C" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-      '<path d="M67 22 C77 24 85 33 84 45 C79 42 71 40 63 41 C63 34 64 27 67 22 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1452,12 +1434,6 @@ var STICKERS = {
       '<path d="M14 24 Q50 8 86 46" fill="none" stroke="#C97B3D" stroke-width="8" stroke-linecap="round"/>' +
       '<circle cx="44" cy="46" r="5.5" fill="#D24B3B"/><circle cx="60" cy="56" r="5.5" fill="#D24B3B"/><circle cx="34" cy="62" r="4.5" fill="#D24B3B"/>' +
       '<circle cx="52" cy="66" r="3" fill="#F7E2A6"/>' +
-      '</svg>',
-    bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M14 24 L86 46 L34 88 Z" fill="#F2C572" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M14 24 Q50 8 86 46" fill="none" stroke="#C97B3D" stroke-width="8" stroke-linecap="round"/>' +
-      '<circle cx="44" cy="46" r="5.5" fill="#D24B3B"/><circle cx="60" cy="56" r="5.5" fill="#D24B3B"/>' +
-      '<path d="M28 68 C24 74 24 82 30 87 C36 82 40 75 38 68 C34 70 31 70 28 68 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1468,12 +1444,6 @@ var STICKERS = {
       '<path d="M37 62 L63 62 M39 70 L61 70 M41 78 L59 78" stroke="#8A5A2B" stroke-width="2" stroke-linecap="round"/>' +
       '<circle cx="50" cy="41" r="25" fill="#F6B8C6" stroke="#2A211B" stroke-width="3"/>' +
       '<circle cx="41" cy="32" r="3.4" fill="#FFFFFF" opacity="0.65"/>' +
-      '</svg>',
-    bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M33 56 L67 56 L50 92 Z" fill="#D9A066" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M37 62 L63 62 M39 70 L61 70 M41 78 L59 78" stroke="#8A5A2B" stroke-width="2" stroke-linecap="round"/>' +
-      '<path d="M26 45 A24 24 0 0 1 74 45 L71 50 A21 21 0 0 1 29 50 Z" fill="#F6B8C6" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<circle cx="67" cy="34" r="13" fill="#FFFFFF" stroke="#2A211B" stroke-width="3"/>' +
       '</svg>'
   },
 
@@ -1484,13 +1454,6 @@ var STICKERS = {
       '<path d="M22 60 C22 76 35 90 50 90 C65 90 78 76 78 60 C78 60 65 68 50 68 C35 68 22 60 22 60 Z" fill="#5C3A21" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '<path d="M39 24 q4 -10 11 -10 q7 0 11 10" fill="none" stroke="#4C8B4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<circle cx="39" cy="40" r="2.2" fill="#FFD9CF"/><circle cx="56" cy="36" r="2.2" fill="#FFD9CF"/><circle cx="46" cy="52" r="2.2" fill="#FFD9CF"/><circle cx="60" cy="50" r="2.2" fill="#FFD9CF"/>' +
-      '</svg>',
-    bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M50 22 C65 22 78 36 78 55 C78 74 65 90 50 90 C35 90 22 74 22 55 C22 36 35 22 50 22 Z" fill="#E1483C" stroke="#2A211B" stroke-width="3"/>' +
-      '<path d="M22 60 C22 76 35 90 50 90 C65 90 78 76 78 60 C78 60 65 68 50 68 C35 68 22 60 22 60 Z" fill="#5C3A21" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M39 24 q4 -10 11 -10 q7 0 11 10" fill="none" stroke="#4C8B4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<circle cx="39" cy="40" r="2.2" fill="#FFD9CF"/>' +
-      '<path d="M63 33 C72 34 78 42 76 51 C70 49 64 47 59 48 C58 42 59 37 63 33 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1502,13 +1465,6 @@ var STICKERS = {
       '<rect x="29" y="27" width="42" height="9" rx="3.5" fill="#FDF6E9" stroke="#2A211B" stroke-width="3"/>' +
       '<line x1="58" y1="8" x2="49" y2="35" stroke="#2A211B" stroke-width="4.5" stroke-linecap="round"/>' +
       '<path d="M44 50 L56 50 M43 60 L57 60" stroke="#F7D9B8" stroke-width="2" stroke-linecap="round"/>' +
-      '</svg>',
-    bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-      '<path d="M32 32 L68 32 L61 90 L39 90 Z" fill="#FDF6E9" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M42 62 L58 62 L55.5 82 L44.5 82 Z" fill="#F4934A"/>' +
-      '<rect x="29" y="27" width="42" height="9" rx="3.5" fill="#FDF6E9" stroke="#2A211B" stroke-width="3"/>' +
-      '<line x1="55" y1="10" x2="47" y2="40" stroke="#2A211B" stroke-width="4.5" stroke-linecap="round"/>' +
-      '<path d="M44 70 L56 70" stroke="#F7D9B8" stroke-width="2" stroke-linecap="round"/>' +
       '</svg>'
   }
 };
@@ -1549,7 +1505,7 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
   supabaseAnonKey: "sb_publishable_f3uNKr3iO3Gy4WtFAPtjcw_WWYxOGSQ"  // Supabase "publishable" key — safe to expose in frontend code
 };
 
-/* NOTE: Tony's Cantina, Blend Riverwalk, and Carolina Running Co. are all
+/* NOTE: Tony's Cantina, Blend Riverwalk, and Charlotte Running Company are all
    at the same street address (652 Herrons Ferry Road, different
    suites/apts in the same building) — 809 Terrace Park (Ritchie's) and
    Inside Scoop are elsewhere. Since no verified per-suite GPS coordinates
@@ -1567,15 +1523,15 @@ var BUSINESSES = [
     logo: LOGO_TONY,
     address: "652 Herrons Ferry Road, Apt 109, Rock Hill, SC 29730",
     hasExactAddress: true,
-    lat: 34.93555, lng: -81.02945,  // PLACEHOLDER pin (same building as Blend/Carolina Running Co. — see note below)
+    lat: 34.93555, lng: -81.02945,  // PLACEHOLDER pin (same building as Blend/Charlotte Running Company — see note below)
     sticker: "tonys"
   },
   {
     id: "richies",
     order: 2,
     name: "Ritchie's Italian Bistro",
-    freebie: "Two slices of pizza from the available Family Day choices OR an order of fries.",
-    freebieShort: "Two slices of pizza or fries",
+    freebie: "Two slices of pizza or fries — per participant.",
+    freebieShort: "Pizza or fries · per participant",
     logo: LOGO_RICHIE,
     address: "819 Terrace Park, Ste 103, Rock Hill, SC 29730",
     hasExactAddress: true,
@@ -1586,8 +1542,8 @@ var BUSINESSES = [
     id: "scoop",
     order: 3,
     name: "Inside Scoop Creamery",
-    freebie: "Anything up to $6, including the available ice cream and waffle-cone choices, plus a $1-off coupon for your next visit.",
-    freebieShort: "Up to $6 + $1-off coupon",
+    freebie: "Ice cream or waffle cone, up to $6, plus a $1-off coupon — per participant.",
+    freebieShort: "Ice cream up to $6 · per participant",
     logo: LOGO_SCOOP,
     address: "Riverwalk, Rock Hill, SC 29730", // PLACEHOLDER — exact street address not yet provided
     lat: 34.9360, lng: -81.0305,               // PLACEHOLDER
@@ -1597,20 +1553,20 @@ var BUSINESSES = [
     id: "blend",
     order: 4,
     name: "Blend Riverwalk",
-    freebie: "One half-wrap and one decorated chocolate-dipped strawberry.",
-    freebieShort: "Half-wrap + strawberry",
+    freebie: "Half-wrap and a chocolate-dipped strawberry — per participant.",
+    freebieShort: "Half-wrap + strawberry · per participant",
     logo: LOGO_BLEND,
     address: "652 Herrons Ferry Road, Suite 113, Rock Hill, SC 29730",
     hasExactAddress: true,
-    lat: 34.93545, lng: -81.02955,  // PLACEHOLDER pin (same building as Tony's/Carolina Running Co. — see note below)
+    lat: 34.93545, lng: -81.02955,  // PLACEHOLDER pin (same building as Tony's/Charlotte Running Company — see note below)
     sticker: "blend"
   },
   {
     id: "crc",
     order: 5,
-    name: "Carolina Running Co.",
-    freebie: "Drink + live music.",
-    freebieShort: "Drink + live music",
+    name: "Charlotte Running Company",
+    freebie: "Your choice of beer, soda, or wine — 2 drinks per participant.",
+    freebieShort: "2 drinks · per participant",
     logo: LOGO_CRC,
     address: "652 Herrons Ferry Road, Apt 101, Rock Hill, SC 29730",
     hasExactAddress: true,
@@ -1747,9 +1703,8 @@ function showCompletionCelebration(){
       '<div class="celebrate-card">' +
         '<div class="celebrate-emoji">🎉</div>' +
         '<div class="script celebrate-title">Yay, you did it!</div>' +
-        '<div class="celebrate-sub">You completed your Family Day Passport!</div>' +
-        '<div class="celebrate-thanks">Thanks for spending Family Day with us!</div>' +
-        '<button class="btn btn-primary" id="celebrateDoneBtn">VIEW MY COMPLETED PASSPORT</button>' +
+        '<div class="celebrate-sub">You completed your Family Day Passport.</div>' +
+        '<button class="btn btn-primary" id="celebrateDoneBtn">VIEW COMPLETED PASSPORT</button>' +
       '</div>' +
     '</div>'
   );
@@ -2215,20 +2170,16 @@ function renderBusinessDetail(id){
     '<div class="header-right">' + b.order + ' of ' + BUSINESSES.length + '</div>' +
   '</div>' +
   '<div class="detail-top">' +
-    '<div class="detail-num ' + (stamped?'stamped':'') + '">' + (stamped ? ICONS.check : b.order) + '</div>' +
     '<img class="detail-logo" src="' + b.logo + '" alt="' + escapeHtml(b.name) + ' logo">' +
   '</div>' +
   '<div class="page">' +
     '<h2 class="detail-name">' + escapeHtml(b.name) + '</h2>' +
     '<p class="detail-freebie">' + escapeHtml(b.freebie) + '</p>' +
-    '<p class="detail-address">' + escapeHtml(b.address) + '</p>' +
-    '<div class="redeem-qty-card ' + (stamped?'redeem-qty-done':'') + '">' +
-      (stamped
-        ? '<div class="redeem-qty-label">✓ REDEEMED</div>' +
-          '<div class="redeem-qty-big">' + passport[b.id].partySize + ' of ' + passport[b.id].partySize + ' claimed</div>'
-        : '<div class="redeem-qty-label">YOUR GROUP: ' + qty + ' ' + (qty===1?'PERSON':'PEOPLE') + '</div>' +
-          '<div class="redeem-qty-big">' + qty + ' FREEBIE' + (qty===1?'':'S') + ' AVAILABLE</div>') +
-    '</div>' +
+    (stamped ? '' :
+    '<div class="redeem-qty-card">' +
+      '<div class="redeem-qty-label">YOUR GROUP: ' + qty + ' ' + (qty===1?'PERSON':'PEOPLE') + '</div>' +
+      '<div class="redeem-qty-big">' + qty + ' FREEBIE' + (qty===1?'':'S') + ' AVAILABLE</div>' +
+    '</div>') +
   '</div>' +
   stampZoneHtml(b, stamped) +
   '<div class="detail-actions">' +
@@ -2299,7 +2250,7 @@ function stampZoneHtml(b, stamped){
     var dateStr = d.toLocaleDateString(undefined, { month: "short", day: "numeric" }) +
       " at " + d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
     return '<div class="stamp-zone done">' +
-      '<div class="sticker-badge sticker-settled">' + sticker.bitten + '</div>' +
+      '<div class="sticker-badge sticker-settled">' + sticker.full + '</div>' +
       '<div class="stamped-label">Stamped!</div>' +
       '<div class="stamped-date">' + dateStr + '</div>' +
     '</div>';
@@ -2326,19 +2277,13 @@ function playStickerAnimation(businessId, zoneEl){
     var badge = document.getElementById("stickerAnim");
 
     setTimeout(function(){
-      badge.innerHTML = sticker.bitten;
       badge.classList.remove("sticker-pop");
-      badge.classList.add("sticker-chomp");
-    }, 650);
-
-    setTimeout(function(){
-      badge.classList.remove("sticker-chomp");
       badge.classList.add("sticker-settle");
-    }, 1000);
+    }, 550);
 
     setTimeout(function(){
       resolve();
-    }, 1450);
+    }, 950);
   });
 }
 

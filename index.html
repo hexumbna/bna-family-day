@@ -1505,14 +1505,18 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
   supabaseAnonKey: "sb_publishable_f3uNKr3iO3Gy4WtFAPtjcw_WWYxOGSQ"  // Supabase "publishable" key — safe to expose in frontend code
 };
 
-/* NOTE: Tony's Cantina, Blend Riverwalk, and Charlotte Running Company are all
-   at the same street address (652 Herrons Ferry Road, different
-   suites/apts in the same building) — 809 Terrace Park (Ritchie's) and
-   Inside Scoop are elsewhere. Since no verified per-suite GPS coordinates
-   exist, those three markers are clustered at one placeholder building
-   location with tiny offsets just so they're each individually tappable
-   on the map — the Directions button for each still routes to its own
-   exact suite address, which is what actually matters for navigation. */
+/* NOTE ON MAP PIN PLACEHOLDERS:
+   Tony's Cantina, Blend Riverwalk, and Charlotte Running Company share one
+   street address (652 Herrons Ferry Road — different suites/apts in the
+   same building). Ritchie's and Inside Scoop Creamery share a different
+   street address (819 Terrace Park — Ritchie's is Ste 103, Inside Scoop
+   has no suite number). Since no verified per-suite GPS coordinates exist
+   for either building, each pair/trio's markers are clustered at one
+   placeholder building location with tiny offsets just so they're each
+   individually tappable on the map. The Directions button for every
+   business always routes by its own exact, distinct address (below),
+   never by these placeholder coordinates — that's what actually matters
+   for getting someone to the right door. */
 var BUSINESSES = [
   {
     id: "tonys",
@@ -1535,7 +1539,7 @@ var BUSINESSES = [
     logo: LOGO_RICHIE,
     address: "819 Terrace Park, Ste 103, Rock Hill, SC 29730",
     hasExactAddress: true,
-    lat: 34.9370, lng: -81.0320,    // PLACEHOLDER pin position — Directions uses the exact address above, not this
+    lat: 34.93705, lng: -81.03205,  // PLACEHOLDER pin (same building as Inside Scoop — see note below)
     sticker: "richies"
   },
   {
@@ -1545,8 +1549,9 @@ var BUSINESSES = [
     freebie: "Ice cream or waffle cone, up to $6, plus a $1-off coupon — per participant.",
     freebieShort: "Ice cream up to $6 · per participant",
     logo: LOGO_SCOOP,
-    address: "Riverwalk, Rock Hill, SC 29730", // PLACEHOLDER — exact street address not yet provided
-    lat: 34.9360, lng: -81.0305,               // PLACEHOLDER
+    address: "819 Terrace Park, Rock Hill, SC 29730",
+    hasExactAddress: true,
+    lat: 34.93695, lng: -81.03195,  // PLACEHOLDER pin (same building as Ritchie's — see note below)
     sticker: "scoop"
   },
   {

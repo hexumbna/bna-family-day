@@ -769,6 +769,13 @@ img{ max-width: 100%; display:block; }
   object-fit: contain;
   border-radius: 50%;
 }
+.party-pill{
+  display:inline-block; margin: 0 auto 6px; padding: 6px 14px;
+  background: var(--terracotta-tint); border:1px solid var(--terracotta);
+  border-radius: var(--radius-full); color:var(--terracotta-dark);
+  font-size:12.5px; font-weight:800; letter-spacing:.01em;
+}
+.party-pill.center{ display:table; margin-left:auto; margin-right:auto; }
 .eyebrow-right{
   color: var(--taupe);
   font-weight: 700;
@@ -868,6 +875,18 @@ img{ max-width: 100%; display:block; }
   font-size: 30px;
   margin-top: 26px;
 }
+.gallery-hint{
+  display:flex; align-items:center; gap:10px;
+  width:100%; margin-top:18px;
+  background: var(--cream-2);
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  cursor:pointer;
+  text-align:left;
+}
+.gallery-hint svg{ flex:none; width:20px; height:20px; color: var(--terracotta); }
+.gallery-hint span{ font-size: 13px; color: var(--taupe); line-height:1.4; font-weight:600; }
 
 /* Generic page header (Map / Passport / Gallery) */
 .page-header{
@@ -962,29 +981,33 @@ img{ max-width: 100%; display:block; }
   text-align:left;
   width:100%;
   border-style:solid;
+  transition: background-color .15s ease, border-color .15s ease;
 }
 .stop-row:active{ transform: scale(0.99); }
-.stop-num{
-  flex:none;
-  width: 34px; height:34px;
-  border-radius:50%;
-  background: var(--terracotta);
-  color: var(--white);
-  display:flex; align-items:center; justify-content:center;
-  font-weight: 800; font-size: 15px;
+.stop-row-done{
+  background: var(--terracotta-tint);
+  border: 1.5px solid var(--terracotta);
 }
-.stop-num.stamped{ background: var(--ink); }
 .stop-logo{
   flex:none;
-  width: 40px; height:40px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
+  width: 44px; height:44px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
   background: var(--white);
   object-fit: contain;
-  padding: 3px;
+  padding: 4px;
 }
+.stop-logo-done{ border-color: var(--terracotta); }
 .stop-info{ flex:1; min-width:0; }
-.stop-name{ font-weight: 800; font-size: 15.5px; }
+.stop-name{ font-weight: 800; font-size: 15.5px; display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+.stop-done-pill{
+  display:inline-flex; align-items:center; gap:3px;
+  background: var(--terracotta); color:#fff;
+  font-size: 11px; font-weight:800; letter-spacing:.02em;
+  padding: 3px 9px 3px 7px; border-radius: var(--radius-full);
+  white-space:nowrap;
+}
+.stop-done-pill svg{ width:11px; height:11px; stroke-width:3; }
 .stop-sub{ color: var(--taupe); font-size: 13.5px; margin-top: 2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .stop-sub.stamped-sub{ color: var(--terracotta-dark); font-weight:700; }
 .chev{ flex:none; color: var(--taupe-2); width:18px; height:18px; }
@@ -1107,6 +1130,156 @@ img{ max-width: 100%; display:block; }
 @media (prefers-reduced-motion: reduce){
   .sticker-pop, .sticker-chomp, .sticker-settle{ animation: none !important; }
 }
+
+/* Completion celebration */
+.celebrate-overlay{
+  position: fixed; inset:0; z-index: 150;
+  background: rgba(42,33,27,0.55);
+  display:flex; align-items:center; justify-content:center;
+  padding: 24px;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+.celebrate-overlay.celebrate-hide{ opacity: 0; }
+.confetti-field{
+  position:absolute; inset:0; overflow:hidden; pointer-events:none;
+}
+.confetti-piece{
+  position:absolute; top:-20px;
+  border-radius: 2px;
+  opacity: 0.95;
+  animation: confettiFall var(--duration) ease-in var(--delay) both;
+}
+@keyframes confettiFall{
+  0%{ transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 1; }
+  100%{ transform: translateY(105vh) translateX(var(--drift)) rotate(var(--rotate)); opacity: 0.4; }
+}
+.celebrate-card{
+  position:relative;
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--terracotta);
+  box-shadow: var(--shadow-md);
+  padding: 32px 26px 26px;
+  max-width: 340px;
+  width: 100%;
+  text-align:center;
+  animation: stickerPopIn 0.5s cubic-bezier(.34,1.56,.64,1) both;
+}
+.celebrate-emoji{ font-size: 44px; line-height:1; margin-bottom: 6px; }
+.celebrate-title{ font-size: 40px; }
+.celebrate-sub{ font-weight:800; font-size:17px; color:var(--ink); margin-top:8px; }
+.celebrate-thanks{ color: var(--taupe); font-size: 14px; margin-top:8px; margin-bottom:22px; }
+@media (prefers-reduced-motion: reduce){
+  .confetti-piece{ animation: none; display:none; }
+  .celebrate-card{ animation: none; }
+}
+
+/* Participant setup gate */
+.setup-screen{
+  max-width: 480px; margin: 0 auto;
+  padding: calc(var(--safe-top) + 32px) 22px 40px;
+  min-height: 100dvh;
+  display:flex; flex-direction:column; align-items:center;
+}
+.setup-logo{ width:76px; height:76px; object-fit:contain; border-radius:50%; margin-bottom:18px; }
+.setup-title{ font-size:23px; text-align:center; }
+.setup-sub{ color:var(--taupe); font-size:14.5px; text-align:center; margin-top:8px; font-weight:600; }
+.setup-search{
+  width:100%; margin-top:20px;
+  border: 1.5px solid var(--line); border-radius: var(--radius-full);
+  padding: 13px 18px; font-size:15px; background:var(--white); color:var(--ink);
+}
+.setup-search:focus{ outline:none; border-color:var(--terracotta); }
+.setup-search.input-error{ border-color:#C0392B; }
+.setup-name-list{
+  width:100%; margin-top:14px; max-height:44vh; overflow-y:auto;
+  display:flex; flex-direction:column; gap:8px;
+}
+.setup-name-row{
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; background:var(--white); border:1.5px solid var(--line);
+  border-radius: var(--radius-md); padding:13px 16px;
+  font-size:15px; font-weight:700; color:var(--ink); cursor:pointer; text-align:left;
+}
+.setup-name-row:active{ transform:scale(0.99); }
+.setup-party-tag{ color:var(--taupe); font-weight:700; font-size:12.5px; white-space:nowrap; }
+.setup-guest-block{ width:100%; margin-top:22px; text-align:center; }
+.setup-guest-prompt{ color:var(--taupe); font-size:13.5px; font-weight:600; margin-bottom:10px; }
+.setup-confirm-card{ width:100%; display:flex; flex-direction:column; align-items:center; margin-top:20px; }
+.setup-wave{ font-size:44px; margin-bottom:8px; }
+.setup-party-big{
+  font-size:32px; font-weight:800; color:var(--terracotta);
+  margin: 14px 0 26px;
+}
+.setup-back-link{
+  background:none; border:none; color:var(--taupe); font-weight:700;
+  font-size:13.5px; margin-top:16px; padding:10px; cursor:pointer;
+  text-decoration:underline;
+}
+.setup-confirm-card .btn, .setup-screen > .btn{ width:100%; }
+.setup-stepper{
+  display:flex; align-items:center; justify-content:center; gap:22px; margin-top:14px;
+}
+.stepper-btn{
+  width:52px; height:52px; border-radius:50%; border:1.5px solid var(--terracotta);
+  background:var(--white); color:var(--terracotta); font-size:26px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; line-height:0;
+}
+.stepper-btn:active{ background:var(--terracotta-tint); }
+.stepper-value{ font-size:30px; font-weight:800; color:var(--ink); min-width:40px; text-align:center; }
+.change-participant-link{
+  display:block; text-align:center; color:var(--taupe); font-size:12.5px;
+  font-weight:700; text-decoration:underline; background:none; border:none;
+  margin-top:18px; padding:6px; cursor:pointer; width:100%;
+}
+
+/* Redemption quantity card + confirm modal */
+.redeem-qty-card{
+  margin-top:16px; padding:14px 16px;
+  background: var(--terracotta-tint); border:1.5px solid var(--terracotta);
+  border-radius: var(--radius-md);
+}
+.redeem-qty-card.redeem-qty-done{ background:#EFEAE0; border-color:var(--ink); }
+.redeem-qty-label{ font-size:11.5px; font-weight:800; letter-spacing:.05em; color:var(--terracotta-dark); }
+.redeem-qty-done .redeem-qty-label{ color:var(--ink); }
+.redeem-qty-big{ font-size:17px; font-weight:800; color:var(--ink); margin-top:3px; }
+
+.confirm-overlay{
+  position:fixed; inset:0; z-index:160; background:rgba(42,33,27,0.55);
+  display:flex; align-items:center; justify-content:center; padding:24px;
+}
+.confirm-card{
+  background:var(--cream); border-radius:var(--radius-lg); border:2px solid var(--line);
+  box-shadow:var(--shadow-md); padding:26px 22px; max-width:340px; width:100%;
+  animation: stickerPopIn 0.35s cubic-bezier(.34,1.56,.64,1) both;
+}
+.confirm-title{ font-size:17px; font-weight:800; color:var(--ink); text-align:center; margin-bottom:20px; line-height:1.4; }
+.confirm-actions{ display:flex; gap:12px; }
+.confirm-actions .btn{ flex:1; }
+@media (prefers-reduced-motion: reduce){
+  .confirm-card{ animation:none; }
+}
+
+/* Admin view */
+.admin-page{ padding-top: 20px; padding-bottom: 60px; }
+.admin-card{
+  background:var(--white); border:1.5px solid var(--line); border-radius:var(--radius-lg);
+  padding:20px; margin-bottom:24px;
+}
+.admin-stat-row{ display:flex; }
+.admin-stat{ flex:1; text-align:center; }
+.admin-stat-num{ font-size:28px; font-weight:800; color:var(--terracotta); }
+.admin-stat-label{ font-size:12px; color:var(--taupe); font-weight:700; margin-top:4px; text-transform:uppercase; letter-spacing:.04em; }
+.admin-section-title{ font-size:14px; color:var(--ink); margin-bottom:10px; }
+.admin-redemptions{ display:flex; flex-direction:column; gap:8px; }
+.admin-row{
+  display:flex; justify-content:space-between; align-items:center;
+  background:var(--white); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:12px 14px; font-size:14px; color:var(--ink);
+}
+.admin-row strong{ color:var(--terracotta-dark); }
+.admin-note{ margin-top:18px; font-size:12.5px; color:var(--taupe); line-height:1.5; }
 
 .detail-actions{ padding: 18px 20px 0; max-width:520px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
 .detail-footer-count{ text-align:center; color:var(--taupe); font-size:14px; margin-top:16px; }
@@ -1268,8 +1441,7 @@ var STICKERS = {
       '<path d="M17 49 l6 -11 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 9 l6 -10 l6 11" fill="none" stroke="#6FA05A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<circle cx="33" cy="45" r="3.4" fill="#D24B3B"/><circle cx="52" cy="42" r="3.4" fill="#D24B3B"/>' +
       '<path d="M26 57 q2 8 -0.5 14 M40 58 q2 9 -1 15" stroke="#F2C94C" stroke-width="3" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="70" cy="34" r="16" fill="#FFFFFF" stroke="#2A211B" stroke-width="3"/>' +
-      '<circle cx="83" cy="52" r="4" fill="#FFFFFF" stroke="#2A211B" stroke-width="2.5"/>' +
+      '<path d="M67 22 C77 24 85 33 84 45 C79 42 71 40 63 41 C63 34 64 27 67 22 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1284,9 +1456,8 @@ var STICKERS = {
     bitten: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
       '<path d="M14 24 L86 46 L34 88 Z" fill="#F2C572" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '<path d="M14 24 Q50 8 86 46" fill="none" stroke="#C97B3D" stroke-width="8" stroke-linecap="round"/>' +
-      '<circle cx="44" cy="46" r="5.5" fill="#D24B3B"/>' +
-      '<circle cx="39" cy="76" r="15" fill="#FFFFFF" stroke="#2A211B" stroke-width="3"/>' +
-      '<circle cx="24" cy="58" r="4" fill="#FFFFFF" stroke="#2A211B" stroke-width="2.5"/>' +
+      '<circle cx="44" cy="46" r="5.5" fill="#D24B3B"/><circle cx="60" cy="56" r="5.5" fill="#D24B3B"/>' +
+      '<path d="M28 68 C24 74 24 82 30 87 C36 82 40 75 38 68 C34 70 31 70 28 68 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1318,8 +1489,8 @@ var STICKERS = {
       '<path d="M50 22 C65 22 78 36 78 55 C78 74 65 90 50 90 C35 90 22 74 22 55 C22 36 35 22 50 22 Z" fill="#E1483C" stroke="#2A211B" stroke-width="3"/>' +
       '<path d="M22 60 C22 76 35 90 50 90 C65 90 78 76 78 60 C78 60 65 68 50 68 C35 68 22 60 22 60 Z" fill="#5C3A21" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '<path d="M39 24 q4 -10 11 -10 q7 0 11 10" fill="none" stroke="#4C8B4A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<circle cx="46" cy="52" r="2.2" fill="#FFD9CF"/><circle cx="60" cy="50" r="2.2" fill="#FFD9CF"/>' +
-      '<circle cx="66" cy="38" r="15" fill="#FFFFFF" stroke="#2A211B" stroke-width="3"/>' +
+      '<circle cx="39" cy="40" r="2.2" fill="#FFD9CF"/>' +
+      '<path d="M63 33 C72 34 78 42 76 51 C70 49 64 47 59 48 C58 42 59 37 63 33 Z" fill="#FFFFFF" stroke="#2A211B" stroke-width="3" stroke-linejoin="round"/>' +
       '</svg>'
   },
 
@@ -1363,8 +1534,8 @@ var EVENT = {
     name: "BNA",
     subtitle: "Riverwalk Lawn",
     activities: "Games · Face painting · Kids' activities · Mingling",
-    lat: 36.16360,   // PLACEHOLDER — replace with real BNA gathering-point coordinates
-    lng: -86.77660   // PLACEHOLDER
+    lat: 34.9358,   // PLACEHOLDER — replace with real BNA gathering-point coordinates
+    lng: -81.0300   // PLACEHOLDER
   }
 };
 
@@ -1378,6 +1549,14 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
   supabaseAnonKey: ""    // the PUBLIC "anon" key — never the service_role key
 };
 
+/* NOTE: Tony's Cantina, Blend Riverwalk, and Carolina Running Co. are all
+   at the same street address (652 Herrons Ferry Road, different
+   suites/apts in the same building) — 809 Terrace Park (Ritchie's) and
+   Inside Scoop are elsewhere. Since no verified per-suite GPS coordinates
+   exist, those three markers are clustered at one placeholder building
+   location with tiny offsets just so they're each individually tappable
+   on the map — the Directions button for each still routes to its own
+   exact suite address, which is what actually matters for navigation. */
 var BUSINESSES = [
   {
     id: "tonys",
@@ -1386,19 +1565,21 @@ var BUSINESSES = [
     freebie: "Freebie details coming soon!",
     freebieShort: "Freebie details coming soon!",
     logo: LOGO_TONY,
-    address: "Riverwalk Row, Stop 1", // PLACEHOLDER address
-    lat: 36.16280, lng: -86.77800,    // PLACEHOLDER
+    address: "652 Herrons Ferry Road, Apt 109, Rock Hill, SC 29730",
+    hasExactAddress: true,
+    lat: 34.93555, lng: -81.02945,  // PLACEHOLDER pin (same building as Blend/Carolina Running Co. — see note below)
     sticker: "tonys"
   },
   {
     id: "richies",
     order: 2,
-    name: "Richie's Italian Bistro",
+    name: "Ritchie's Italian Bistro",
     freebie: "Two slices of pizza from the available Family Day choices OR an order of fries.",
     freebieShort: "Two slices of pizza or fries",
     logo: LOGO_RICHIE,
-    address: "Riverwalk Row, Stop 2", // PLACEHOLDER address
-    lat: 36.16305, lng: -86.77740,    // PLACEHOLDER
+    address: "819 Terrace Park, Ste 103, Rock Hill, SC 29730",
+    hasExactAddress: true,
+    lat: 34.9370, lng: -81.0320,    // PLACEHOLDER pin position — Directions uses the exact address above, not this
     sticker: "richies"
   },
   {
@@ -1408,8 +1589,8 @@ var BUSINESSES = [
     freebie: "Anything up to $6, including the available ice cream and waffle-cone choices, plus a $1-off coupon for your next visit.",
     freebieShort: "Up to $6 + $1-off coupon",
     logo: LOGO_SCOOP,
-    address: "Riverwalk Row, Stop 3", // PLACEHOLDER address
-    lat: 36.16330, lng: -86.77690,    // PLACEHOLDER
+    address: "Riverwalk, Rock Hill, SC 29730", // PLACEHOLDER — exact street address not yet provided
+    lat: 34.9360, lng: -81.0305,               // PLACEHOLDER
     sticker: "scoop"
   },
   {
@@ -1419,24 +1600,93 @@ var BUSINESSES = [
     freebie: "One half-wrap and one decorated chocolate-dipped strawberry.",
     freebieShort: "Half-wrap + strawberry",
     logo: LOGO_BLEND,
-    address: "Riverwalk Row, Stop 4", // PLACEHOLDER address
-    lat: 36.16400, lng: -86.77620,    // PLACEHOLDER
+    address: "652 Herrons Ferry Road, Suite 113, Rock Hill, SC 29730",
+    hasExactAddress: true,
+    lat: 34.93545, lng: -81.02955,  // PLACEHOLDER pin (same building as Tony's/Carolina Running Co. — see note below)
     sticker: "blend"
   },
   {
     id: "crc",
     order: 5,
-    name: "Charlotte Running Co.",
+    name: "Carolina Running Co.",
     freebie: "Drink + live music.",
     freebieShort: "Drink + live music",
     logo: LOGO_CRC,
-    address: "Riverwalk Row, Stop 5", // PLACEHOLDER address
-    lat: 36.16250, lng: -86.77660,    // PLACEHOLDER
+    address: "652 Herrons Ferry Road, Apt 101, Rock Hill, SC 29730",
+    hasExactAddress: true,
+    lat: 34.93550, lng: -81.02935,  // PLACEHOLDER pin (same building as Tony's/Blend — see note below)
     sticker: "crc"
   }
 ];
 
-/* ---------- SVG ICONS ---------- */
+/* ---------- REGISTERED PARTICIPANTS (RSVP list) ---------- */
+var REGISTERED_PARTICIPANTS = [
+  { name: "Adam Ackerman", partySize: 2 },
+  { name: "Ashley Taylor", partySize: 2 },
+  { name: "Celeste Simmons", partySize: 3 },
+  { name: "Erin Riley", partySize: 4 },
+  { name: "Florian Woodall", partySize: 2 },
+  { name: "Hannah Exum", partySize: 3 },
+  { name: "Jason Ackerman", partySize: 3 },
+  { name: "Joseph Zarzycki", partySize: 2 },
+  { name: "Julia Grefenstette", partySize: 3 },
+  { name: "Ke'Arah Tate", partySize: 4 },
+  { name: "Kyle Cawthon", partySize: 2 },
+  { name: "Matthew Leder", partySize: 2 },
+  { name: "Meagan DenOuden", partySize: 4 },
+  { name: "Megan Call", partySize: 4 },
+  { name: "Pam Pendleton", partySize: 2 },
+  { name: "Patterson Kannon", partySize: 2 },
+  { name: "Robert Longfield", partySize: 3 },
+  { name: "Shante Kiefer", partySize: 2 },
+  { name: "Tiffany Wagner", partySize: 5 },
+  { name: "Trey Schnippel", partySize: 6 }
+];
+var REGISTERED_TOTAL = REGISTERED_PARTICIPANTS.reduce(function(sum, p){ return sum + p.partySize; }, 0);
+
+/* ---------- PARTICIPANT (device-remembered identity + party size) ---------- */
+var PARTICIPANT_KEY = "bnaFamilyDay.participant.v1";
+function loadParticipant(){
+  try{
+    var raw = localStorage.getItem(PARTICIPANT_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveParticipant(p){
+  try{ localStorage.setItem(PARTICIPANT_KEY, JSON.stringify(p)); }catch(e){}
+}
+function clearParticipant(){
+  try{ localStorage.removeItem(PARTICIPANT_KEY); }catch(e){}
+}
+var participant = loadParticipant();
+
+function recordGuestRemote(p){
+  if(galleryMode() !== "supabase") return;
+  var c = window.FAMILY_DAY_CONFIG;
+  fetch(c.supabaseUrl + "/rest/v1/guests", {
+    method: "POST",
+    headers: supabaseHeaders({ "Content-Type": "application/json" }),
+    body: JSON.stringify({ name: p.name, party_size: p.partySize })
+  }).catch(function(err){ console.error("Guest record failed", err); });
+}
+
+function recordRedemptionRemote(business, p){
+  if(galleryMode() !== "supabase") return;
+  var c = window.FAMILY_DAY_CONFIG;
+  fetch(c.supabaseUrl + "/rest/v1/redemptions", {
+    method: "POST",
+    headers: supabaseHeaders({ "Content-Type": "application/json" }),
+    body: JSON.stringify({
+      business_id: business.id,
+      business_name: business.name,
+      party_size: p ? p.partySize : null,
+      participant_name: p ? p.name : null,
+      participant_type: p ? p.type : null
+    })
+  }).catch(function(err){ console.error("Redemption record failed", err); });
+}
+
+
 var ICONS = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9"/></svg>',
   map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>',
@@ -1447,7 +1697,7 @@ var ICONS = {
   back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>',
   stamp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21h10M9 21v-3.2c0-.5.2-1 .6-1.3l1-.9a1 1 0 0 1 1.3 0l1 .9c.4.3.6.8.6 1.3V21"/><path d="M7.5 16 6 9.5A2 2 0 0 1 8 7h8a2 2 0 0 1 2 2.5L16.5 16"/><path d="M9 7V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V7"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 5 5L19 7"/></svg>',
-  nav: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 8-8 10 18-9-4-9 4Z"/></svg>',
+  nav: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>',
   camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a2 2 0 0 1 2-2h1.2a1 1 0 0 0 .9-.55l.6-1.2A1 1 0 0 1 9.6 3.5h4.8a1 1 0 0 1 .9.75l.6 1.2a1 1 0 0 0 .9.55H18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><circle cx="12" cy="12.5" r="3.6"/></svg>',
   upload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>',
   trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0 1 12a1.5 1.5 0 0 0 1.5 1.4h5a1.5 1.5 0 0 0 1.5-1.4L18 7"/></svg>',
@@ -1475,9 +1725,59 @@ function stampCount(){
   for(var i=0;i<BUSINESSES.length;i++){ if(isStamped(BUSINESSES[i].id)) n++; }
   return n;
 }
-function stampBusiness(id){
-  passport[id] = { stampedAt: Date.now() };
+function stampBusiness(id, partySize){
+  passport[id] = { stampedAt: Date.now(), partySize: partySize };
   savePassport(passport);
+}
+
+/* ---------- COMPLETION CELEBRATION ---------- */
+var CELEBRATION_KEY = "bnaFamilyDay.celebrationShown.v1";
+function celebrationAlreadyShown(){
+  try{ return localStorage.getItem(CELEBRATION_KEY) === "1"; }catch(e){ return false; }
+}
+function markCelebrationShown(){
+  try{ localStorage.setItem(CELEBRATION_KEY, "1"); }catch(e){}
+}
+
+var CONFETTI_COLORS = ["#B2543A", "#E8AE47", "#6FA05A", "#F2C572", "#2A211B", "#E1483C"];
+function showCompletionCelebration(){
+  var overlay = el(
+    '<div class="celebrate-overlay" id="celebrateOverlay">' +
+      '<div class="confetti-field" id="confettiField"></div>' +
+      '<div class="celebrate-card">' +
+        '<div class="celebrate-emoji">🎉</div>' +
+        '<div class="script celebrate-title">Yay, you did it!</div>' +
+        '<div class="celebrate-sub">You completed your Family Day Passport!</div>' +
+        '<div class="celebrate-thanks">Thanks for spending Family Day with us!</div>' +
+        '<button class="btn btn-primary" id="celebrateDoneBtn">VIEW MY COMPLETED PASSPORT</button>' +
+      '</div>' +
+    '</div>'
+  );
+  document.body.appendChild(overlay);
+
+  var field = document.getElementById("confettiField");
+  var pieces = "";
+  for(var i=0;i<50;i++){
+    var left = Math.random()*100;
+    var delay = Math.random()*0.5;
+    var duration = 2.2 + Math.random()*1.4;
+    var color = CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
+    var rotate = Math.random()*360;
+    var drift = (Math.random()*60 - 30);
+    var size = 6 + Math.random()*6;
+    pieces += '<span class="confetti-piece" style="left:' + left + '%; ' +
+      '--delay:' + delay + 's; --duration:' + duration + 's; --rotate:' + rotate + 'deg; ' +
+      '--drift:' + drift + 'px; background:' + color + '; width:' + size + 'px; height:' + (size*0.4) + 'px;"></span>';
+  }
+  field.innerHTML = pieces;
+
+  document.getElementById("celebrateDoneBtn").addEventListener("click", function(){
+    overlay.classList.add("celebrate-hide");
+    setTimeout(function(){
+      overlay.remove();
+      navigate("#/passport");
+    }, 300);
+  });
 }
 
 /* ---------- GALLERY (IndexedDB local mode + optional API mode) ---------- */
@@ -1639,6 +1939,7 @@ function currentRoute(){
   if(parts[0] === "passport" && parts[1]) return { name: "business", id: parts[1] };
   if(parts[0] === "passport") return { name: "passport" };
   if(parts[0] === "gallery") return { name: "gallery" };
+  if(parts[0] === "admin") return { name: "admin" };
   return { name: "home" };
 }
 function navigate(hash){ location.hash = hash; }
@@ -1678,9 +1979,21 @@ function businessById(id){
   for(var i=0;i<BUSINESSES.length;i++){ if(BUSINESSES[i].id === id) return BUSINESSES[i]; }
   return null;
 }
-function directionsUrl(lat, lng, label){
-  return "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lng +
-    (label ? "&destination_place_id=" : "");
+function directionsUrl(lat, lng){
+  return "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lng;
+}
+function directionsUrlForAddress(address){
+  return "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(address);
+}
+/* Prefer the exact street address (with suite/unit) when we have a real
+   one on file — this is what actually gets someone to the right door.
+   Falls back to the placeholder pin coordinates only when no verified
+   address exists yet (see the `hasExactAddress` flag per business). */
+function directionsUrlFor(entity){
+  if(entity.hasExactAddress && entity.address){
+    return directionsUrlForAddress(entity.address);
+  }
+  return directionsUrl(entity.lat, entity.lng);
 }
 
 /* ---------- BOTTOM NAV ---------- */
@@ -1708,12 +2021,14 @@ function wireNav(){
 
 /* ---------- PAGE: HOME ---------- */
 function renderHome(){
+  var firstName = participant.name.split(" ")[0];
   var html = '' +
   '<div class="topbar">' +
     '<img class="bna-badge-logo" src="' + LOGO_BNA + '" alt="BNA Family Day">' +
     '<div class="eyebrow-right">FAMILY DAY</div>' +
   '</div>' +
   '<div class="page">' +
+    '<div class="party-pill center">' + escapeHtml(firstName) + '\'s Family Day &middot; Party of ' + participant.partySize + '</div>' +
     '<div class="welcome-script script">Welcome!</div>' +
     '<h1 class="event-title center">BNA FAMILY DAY</h1>' +
     '<div class="event-datetime">' + EVENT.date + '<br>' + EVENT.time + '</div>' +
@@ -1730,12 +2045,21 @@ function renderHome(){
         '<div class="gather-activities">' + EVENT.bna.activities + '</div>' +
       '</div>' +
     '</div>' +
+    '<button class="gallery-hint" id="galleryHintBtn">' + ICONS.camera + ' <span>Don\'t forget to snap some photos along the way and share them in the Family Day Gallery!</span></button>' +
     '<div class="closing-script script center">Let\'s make it a great day!</div>' +
+    '<button class="change-participant-link" id="changeParticipantBtn">Not you? Change participant</button>' +
   '</div>' +
   renderBottomNav("home");
 
   document.getElementById("view").innerHTML = html;
   document.getElementById("startCrawlBtn").addEventListener("click", function(){ navigate("#/map"); });
+  document.getElementById("galleryHintBtn").addEventListener("click", function(){ navigate("#/gallery"); });
+  document.getElementById("changeParticipantBtn").addEventListener("click", function(){
+    clearParticipant();
+    participant = null;
+    location.hash = "";
+    render();
+  });
   wireNav();
 }
 function arrow(){ return '<span aria-hidden="true">&#8594;</span>'; }
@@ -1775,12 +2099,13 @@ function renderStopList(container){
   var html = "";
   BUSINESSES.forEach(function(b){
     var stamped = isStamped(b.id);
-    html += '<button class="stop-row" data-goto="' + b.id + '">' +
-      '<div class="stop-num ' + (stamped?'stamped':'') + '">' + (stamped ? ICONS.check : b.order) + '</div>' +
-      '<img class="stop-logo" src="' + b.logo + '" alt="">' +
+    html += '<button class="stop-row ' + (stamped?'stop-row-done':'') + '" data-goto="' + b.id + '">' +
+      '<img class="stop-logo ' + (stamped?'stop-logo-done':'') + '" src="' + b.logo + '" alt="">' +
       '<div class="stop-info">' +
-        '<div class="stop-name">' + escapeHtml(b.name) + '</div>' +
-        '<div class="stop-sub ' + (stamped?'stamped-sub':'') + '">' + (stamped ? 'Stamped &middot; ' : 'Not stamped &middot; ') + escapeHtml(b.freebieShort) + '</div>' +
+        '<div class="stop-name">' + escapeHtml(b.name) +
+          (stamped ? ' <span class="stop-done-pill">' + ICONS.check + ' Stamped</span>' : '') +
+        '</div>' +
+        '<div class="stop-sub ' + (stamped?'stamped-sub':'') + '">' + (stamped ? escapeHtml(b.freebieShort) : 'Not stamped &middot; ' + escapeHtml(b.freebieShort)) + '</div>' +
       '</div>' +
       '<div class="chev">' + ICONS.chev + '</div>' +
     '</button>';
@@ -1856,8 +2181,9 @@ function initLeafletMap(){
 function renderPassportList(){
   var count = stampCount();
   var html = '' +
-  '<div class="page-header"><h1>Your Passport</h1></div>' +
+  '<div class="page-header"><h1>' + escapeHtml(participant.name.split(" ")[0]) + '\'s Passport</h1></div>' +
   '<div class="passport-progress">' +
+    '<div class="party-pill center" style="margin-bottom:12px;">Party of ' + participant.partySize + '</div>' +
     '<div class="progress-count">' + count + ' of ' + BUSINESSES.length + ' stops</div>' +
     '<div class="progress-track"><div class="progress-fill" style="width:' + (count/BUSINESSES.length*100) + '%"></div></div>' +
     '<div class="progress-dots">' +
@@ -1880,6 +2206,7 @@ function renderBusinessDetail(id){
   var b = businessById(id);
   if(!b){ navigate("#/passport"); return; }
   var stamped = isStamped(b.id);
+  var qty = participant.partySize;
 
   var html = '' +
   '<div class="page-header">' +
@@ -1895,15 +2222,22 @@ function renderBusinessDetail(id){
     '<h2 class="detail-name">' + escapeHtml(b.name) + '</h2>' +
     '<p class="detail-freebie">' + escapeHtml(b.freebie) + '</p>' +
     '<p class="detail-address">' + escapeHtml(b.address) + '</p>' +
+    '<div class="redeem-qty-card ' + (stamped?'redeem-qty-done':'') + '">' +
+      (stamped
+        ? '<div class="redeem-qty-label">✓ REDEEMED</div>' +
+          '<div class="redeem-qty-big">' + passport[b.id].partySize + ' of ' + passport[b.id].partySize + ' claimed</div>'
+        : '<div class="redeem-qty-label">YOUR GROUP: ' + qty + ' ' + (qty===1?'PERSON':'PEOPLE') + '</div>' +
+          '<div class="redeem-qty-big">' + qty + ' FREEBIE' + (qty===1?'':'S') + ' AVAILABLE</div>') +
+    '</div>' +
   '</div>' +
   stampZoneHtml(b, stamped) +
   '<div class="detail-actions">' +
     (stamped
-      ? '<button class="btn btn-secondary" disabled>' + ICONS.check + ' STAMPED</button>'
-      : '<button class="btn btn-primary" id="stampBtn">STAMP PASSPORT</button>') +
+      ? '<button class="btn btn-secondary" disabled>' + ICONS.check + ' REDEEMED</button>'
+      : '<button class="btn btn-primary" id="stampBtn">REDEEM &amp; STAMP</button>') +
     '<button class="btn btn-secondary" id="directionsBtn">' + ICONS.nav + ' Get Directions</button>' +
   '</div>' +
-  '<div class="detail-footer-count">' + stampCount() + ' of ' + BUSINESSES.length + ' stops stamped</div>' +
+  '<div class="detail-footer-count">' + stampCount() + ' of ' + BUSINESSES.length + ' stops redeemed</div>' +
   renderBottomNav("passport");
 
   document.getElementById("view").innerHTML = html;
@@ -1911,21 +2245,51 @@ function renderBusinessDetail(id){
 
   document.getElementById("backBtn").addEventListener("click", function(){ navigate("#/passport"); });
   document.getElementById("directionsBtn").addEventListener("click", function(){
-    window.open(directionsUrl(b.lat, b.lng), "_blank");
+    window.open(directionsUrlFor(b), "_blank");
   });
   var stampBtn = document.getElementById("stampBtn");
   if(stampBtn){
     stampBtn.addEventListener("click", function(){
-      stampBtn.disabled = true;
-      stampBtn.textContent = "STAMPING...";
-      var zoneEl = document.getElementById("stampZone");
-      playStickerAnimation(b.id, zoneEl).then(function(){
-        stampBusiness(b.id);
-        showToast(b.name + " stamped!");
-        renderBusinessDetail(b.id);
+      showRedeemConfirm(b, qty, function(confirmed){
+        if(!confirmed) return;
+        stampBtn.disabled = true;
+        stampBtn.textContent = "REDEEMING...";
+        var zoneEl = document.getElementById("stampZone");
+        playStickerAnimation(b.id, zoneEl).then(function(){
+          stampBusiness(b.id, qty);
+          recordRedemptionRemote(b, participant);
+          showToast(b.name + " redeemed!");
+          renderBusinessDetail(b.id);
+          if(stampCount() === BUSINESSES.length && !celebrationAlreadyShown()){
+            markCelebrationShown();
+            setTimeout(showCompletionCelebration, 500);
+          }
+        });
       });
     });
   }
+}
+
+function showRedeemConfirm(b, qty, callback){
+  var overlay = el(
+    '<div class="confirm-overlay" id="redeemConfirmOverlay">' +
+      '<div class="confirm-card">' +
+        '<div class="confirm-title">Redeem ' + qty + ' freebie' + (qty===1?'':'s') + ' at ' + escapeHtml(b.name) + '?</div>' +
+        '<div class="confirm-actions">' +
+          '<button class="btn btn-secondary" id="confirmCancelBtn">CANCEL</button>' +
+          '<button class="btn btn-primary" id="confirmYesBtn">YES, REDEEM</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>'
+  );
+  document.body.appendChild(overlay);
+  function close(result){
+    overlay.remove();
+    callback(result);
+  }
+  document.getElementById("confirmCancelBtn").addEventListener("click", function(){ close(false); });
+  document.getElementById("confirmYesBtn").addEventListener("click", function(){ close(true); });
+  overlay.addEventListener("click", function(e){ if(e.target === overlay) close(false); });
 }
 
 function stampZoneHtml(b, stamped){
@@ -2093,8 +2457,179 @@ function openLightbox(src){
   document.getElementById("lbClose").addEventListener("click", function(){ box.remove(); });
 }
 
-/* ---------- MAIN RENDER ---------- */
+/* ---------- PAGE: ADMIN (hidden, not in bottom nav) ---------- */
+function renderAdmin(){
+  var html = '' +
+  '<div class="page-header"><h1>Family Day Admin</h1></div>' +
+  '<div class="page admin-page">' +
+    '<div class="admin-card">' +
+      '<div class="admin-stat-row">' +
+        '<div class="admin-stat"><div class="admin-stat-num">' + REGISTERED_TOTAL + '</div><div class="admin-stat-label">Registered</div></div>' +
+        '<div class="admin-stat"><div class="admin-stat-num" id="adminGuestNum">&hellip;</div><div class="admin-stat-label">Guests</div></div>' +
+        '<div class="admin-stat"><div class="admin-stat-num" id="adminTotalNum">&hellip;</div><div class="admin-stat-label">Total</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<h3 class="admin-section-title">Redemptions by business</h3>' +
+    '<div id="adminRedemptions" class="admin-redemptions">Loading&hellip;</div>' +
+    '<div class="admin-note" id="adminNote"></div>' +
+  '</div>';
+
+  document.getElementById("view").innerHTML = html;
+
+  if(galleryMode() !== "supabase"){
+    document.getElementById("adminGuestNum").textContent = "—";
+    document.getElementById("adminTotalNum").textContent = REGISTERED_TOTAL + "+";
+    document.getElementById("adminRedemptions").innerHTML =
+      BUSINESSES.map(function(b){ return adminRow(b.name, "—"); }).join("");
+    document.getElementById("adminNote").textContent =
+      "Guest counts and redemption totals need the shared backend (Supabase) to aggregate across every attendee's phone. Not connected yet — this device's own passport still works normally.";
+    return;
+  }
+
+  var c = window.FAMILY_DAY_CONFIG;
+  Promise.all([
+    fetch(c.supabaseUrl + "/rest/v1/guests?select=party_size", { headers: supabaseHeaders() }).then(function(r){ return r.json(); }).catch(function(){ return []; }),
+    fetch(c.supabaseUrl + "/rest/v1/redemptions?select=business_id,business_name,party_size", { headers: supabaseHeaders() }).then(function(r){ return r.json(); }).catch(function(){ return []; })
+  ]).then(function(results){
+    var guests = results[0] || [];
+    var redemptions = results[1] || [];
+    var guestTotal = guests.reduce(function(sum, g){ return sum + (g.party_size || 0); }, 0);
+    document.getElementById("adminGuestNum").textContent = guestTotal;
+    document.getElementById("adminTotalNum").textContent = REGISTERED_TOTAL + guestTotal;
+
+    var totalsByBusiness = {};
+    BUSINESSES.forEach(function(b){ totalsByBusiness[b.id] = 0; });
+    redemptions.forEach(function(r){
+      totalsByBusiness[r.business_id] = (totalsByBusiness[r.business_id] || 0) + (r.party_size || 0);
+    });
+    document.getElementById("adminRedemptions").innerHTML =
+      BUSINESSES.map(function(b){ return adminRow(b.name, totalsByBusiness[b.id] + " redeemed"); }).join("");
+    document.getElementById("adminNote").textContent = "Live totals from the shared backend.";
+  });
+}
+function adminRow(name, value){
+  return '<div class="admin-row"><span>' + escapeHtml(name) + '</span><strong>' + value + '</strong></div>';
+}
+
+/* ---------- PARTICIPANT SETUP (gate before the app) ---------- */
+function renderParticipantSetup(){
+  renderSetupSelect();
+}
+
+function setupShell(innerHtml){
+  document.getElementById("view").innerHTML =
+    '<div class="setup-screen">' +
+      '<img class="setup-logo" src="' + LOGO_BNA + '" alt="BNA Family Day">' +
+      innerHtml +
+    '</div>';
+}
+
+function renderSetupSelect(){
+  var options = REGISTERED_PARTICIPANTS.slice().sort(function(a,b){ return a.name.localeCompare(b.name); });
+  var listHtml = options.map(function(p){
+    return '<button class="setup-name-row" data-name="' + escapeHtml(p.name) + '">' +
+      '<span>' + escapeHtml(p.name) + '</span>' +
+      '<span class="setup-party-tag">Party of ' + p.partySize + '</span>' +
+    '</button>';
+  }).join("");
+
+  setupShell(
+    '<h1 class="setup-title">Welcome to BNA Family Day!</h1>' +
+    '<p class="setup-sub">Select your name to get started.</p>' +
+    '<input type="text" class="setup-search" id="setupSearch" placeholder="Search your name&hellip;" autocomplete="off">' +
+    '<div class="setup-name-list" id="setupNameList">' + listHtml + '</div>' +
+    '<div class="setup-guest-block">' +
+      '<div class="setup-guest-prompt">Don\'t see your name?</div>' +
+      '<button class="btn btn-secondary" id="guestBtn">CONTINUE AS A GUEST</button>' +
+    '</div>'
+  );
+
+  var search = document.getElementById("setupSearch");
+  var list = document.getElementById("setupNameList");
+  search.addEventListener("input", function(){
+    var q = search.value.trim().toLowerCase();
+    list.querySelectorAll("[data-name]").forEach(function(row){
+      var name = row.getAttribute("data-name").toLowerCase();
+      row.style.display = name.indexOf(q) === -1 ? "none" : "flex";
+    });
+  });
+  list.querySelectorAll("[data-name]").forEach(function(row){
+    row.addEventListener("click", function(){
+      var name = row.getAttribute("data-name");
+      var person = REGISTERED_PARTICIPANTS.filter(function(p){ return p.name === name; })[0];
+      renderSetupConfirm(person);
+    });
+  });
+  document.getElementById("guestBtn").addEventListener("click", renderSetupGuest);
+}
+
+function renderSetupConfirm(person){
+  var firstName = person.name.split(" ")[0];
+  setupShell(
+    '<div class="setup-confirm-card">' +
+      '<div class="setup-wave">👋</div>' +
+      '<h1 class="setup-title">Hi, ' + escapeHtml(firstName) + '!</h1>' +
+      '<p class="setup-sub">Your Family Day group:</p>' +
+      '<div class="setup-party-big">' + person.partySize + ' ' + (person.partySize === 1 ? 'person' : 'people') + '</div>' +
+      '<button class="btn btn-primary" id="startPassportBtn">START MY PASSPORT</button>' +
+      '<button class="setup-back-link" id="setupBackBtn">Not you? Go back</button>' +
+    '</div>'
+  );
+  document.getElementById("startPassportBtn").addEventListener("click", function(){
+    participant = { type: "registered", name: person.name, partySize: person.partySize };
+    saveParticipant(participant);
+    render();
+  });
+  document.getElementById("setupBackBtn").addEventListener("click", renderSetupSelect);
+}
+
+function renderSetupGuest(){
+  var size = 2;
+  setupShell(
+    '<h1 class="setup-title">Join as a Guest</h1>' +
+    '<p class="setup-sub">Your name</p>' +
+    '<input type="text" class="setup-search" id="guestName" placeholder="Your name" autocomplete="off">' +
+    '<p class="setup-sub" style="margin-top:20px;">How many people are in your group?</p>' +
+    '<div class="setup-stepper">' +
+      '<button class="stepper-btn" id="stepMinus">&minus;</button>' +
+      '<div class="stepper-value" id="stepValue">2</div>' +
+      '<button class="stepper-btn" id="stepPlus">+</button>' +
+    '</div>' +
+    '<button class="btn btn-primary" id="startGuestBtn" style="margin-top:24px;">START MY PASSPORT</button>' +
+    '<button class="setup-back-link" id="setupBackBtn2">Back</button>'
+  );
+  var valueEl = document.getElementById("stepValue");
+  document.getElementById("stepMinus").addEventListener("click", function(){
+    size = Math.max(1, size - 1);
+    valueEl.textContent = size;
+  });
+  document.getElementById("stepPlus").addEventListener("click", function(){
+    size = Math.min(6, size + 1);
+    valueEl.textContent = size;
+  });
+  document.getElementById("setupBackBtn2").addEventListener("click", renderSetupSelect);
+  document.getElementById("startGuestBtn").addEventListener("click", function(){
+    var nameInput = document.getElementById("guestName");
+    var name = nameInput.value.trim();
+    if(!name){
+      nameInput.focus();
+      nameInput.classList.add("input-error");
+      return;
+    }
+    participant = { type: "guest", name: name, partySize: size };
+    saveParticipant(participant);
+    recordGuestRemote(participant);
+    render();
+  });
+}
+
+
 function render(){
+  if(!participant){
+    renderParticipantSetup();
+    window.scrollTo(0,0);
+    return;
+  }
   var route = currentRoute();
   if(leafletMapInstance){
     leafletMapInstance.remove();
@@ -2106,6 +2641,7 @@ function render(){
   else if(route.name === "passport") renderPassportList();
   else if(route.name === "business") renderBusinessDetail(route.id);
   else if(route.name === "gallery") renderGallery();
+  else if(route.name === "admin") renderAdmin();
   window.scrollTo(0,0);
 }
 

@@ -1375,23 +1375,6 @@ img{ max-width: 100%; display:block; }
   border: 1.5px solid #fff;
 }
 .stop-marker-logo.stamped .stop-marker-num{ background: var(--ink); }
-.stop-marker-group{
-  background: var(--ink); border: 2.5px solid #fff;
-  border-radius:50%; width:46px; height:46px;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow: var(--shadow-md); color:#fff;
-}
-.stop-marker-group.stamped{ background: var(--terracotta-dark); }
-.stop-marker-count{ font-size:16px; font-weight:800; }
-.popup-group-title{ font-weight:800; font-size:12.5px; color:var(--taupe); margin-bottom:8px; }
-.popup-group-row{
-  display:flex; align-items:center; gap:8px; width:100%;
-  background:none; border:none; border-top:1px solid var(--line);
-  padding:8px 0; cursor:pointer; text-align:left;
-}
-.popup-group-row:first-of-type{ border-top:none; }
-.popup-group-chev{ margin-left:auto; flex:none; color:var(--taupe-2); width:16px; height:16px; }
-.popup-group-chev svg{ width:100%; height:100%; }
 .leaflet-popup-content-wrapper{ border-radius: 14px; }
 .leaflet-popup-content{ margin: 12px 14px; font-family: 'Figtree', sans-serif; }
 .popup-row{ display:flex; align-items:center; gap:10px; }
@@ -1533,25 +1516,34 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
   supabaseAnonKey: "sb_publishable_f3uNKr3iO3Gy4WtFAPtjcw_WWYxOGSQ"  // Supabase "publishable" key — safe to expose in frontend code
 };
 
-/* NOTE ON MAP PIN PLACEHOLDERS:
-   Tony's Cantina, Blend Riverwalk, and Charlotte Running Company share one
-   street address (652 Herrons Ferry Road — different suites/apts in the
-   same building). Ritchie's and Inside Scoop Creamery share a different
-   street address (819 Terrace Park — Ritchie's is Ste 103, Inside Scoop
-   has no suite number). This environment has no network access to any
-   geocoding service (Google/Nominatim/etc. are all blocked here), so
-   these lat/lng values are NOT independently verified — they're a
-   reasonable placeholder arrangement so the map works out of the box.
-   Get the real coordinates from Google Maps (search the address, right-
-   click the pin, click the lat/lng shown) and replace the values below —
-   see `locationGroup`, which is what actually drives map behavior: every
-   business sharing a `locationGroup` gets one shared marker on the map
-   that opens a popup listing each business at that location individually,
-   so participants can clearly choose between them regardless of how
-   close together their real coordinates turn out to be. The Directions
-   button for every business always routes by its own exact, distinct
-   address (below), never by these placeholder coordinates — that's what
-   actually matters for getting someone to the right door. */
+/* NOTE ON MAP PIN PLACEHOLDERS — READ BEFORE CHANGING:
+   This environment has NO network access to any geocoding or mapping
+   service (Google/Nominatim/Komoot/etc. are all blocked at the network
+   level here) — confirmed by direct testing, not an assumption. Every
+   lat/lng below is therefore an UNVERIFIED PLACEHOLDER, not a real
+   geocoded location, and should not be trusted for anything visual.
+
+   Tony's Cantina, Blend Riverwalk, and Charlotte Running Company share
+   one real street address (652 Herrons Ferry Road — different suites in
+   the same building). Ritchie's and Inside Scoop Creamery share a
+   different real street address (819 Terrace Park). Per explicit
+   requirement, each business still gets its OWN independent, always-
+   clickable map marker — co-located businesses just have a small
+   deliberate visual offset applied to their placeholder pin so the
+   markers don't sit exactly on top of each other. `locationGroup` below
+   records which businesses actually share a real address (useful
+   context for a human reading this file); it does not drive any map
+   clustering logic anymore.
+
+   The Directions button for every business always routes by its own
+   exact, distinct `address` string (below), completely independent of
+   these lat/lng placeholders — that's what actually matters for getting
+   someone to the right door, and it's already correct today.
+
+   TO FIX THE MAP FOR REAL: get the actual coordinates from Google Maps
+   (search each address, right-click/long-press the pin, the lat/lng is
+   the top item in the menu that appears) for all 6 locations (BNA +
+   5 businesses) and replace every lat/lng value below with them. */
 var BUSINESSES = [
   {
     id: "tonys",
@@ -1563,7 +1555,7 @@ var BUSINESSES = [
     address: "652 Herrons Ferry Road, Apt 109, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93555, lng: -81.02945,  // PLACEHOLDER pin (same building as Blend/Charlotte Running Company — see note below)
+    lat: 34.93590, lng: -81.02890,  // PLACEHOLDER pin, deliberately offset from Blend/Charlotte Running Company below for visibility only — see note above
     sticker: "tonys"
   },
   {
@@ -1576,7 +1568,7 @@ var BUSINESSES = [
     address: "819 Terrace Park, Ste 103, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.93705, lng: -81.03205,  // PLACEHOLDER pin (same building as Inside Scoop — see note below)
+    lat: 34.93740, lng: -81.03140,  // PLACEHOLDER pin, deliberately offset from Inside Scoop below for visibility only — see note above
     sticker: "richies"
   },
   {
@@ -1589,7 +1581,7 @@ var BUSINESSES = [
     address: "819 Terrace Park, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.93695, lng: -81.03195,  // PLACEHOLDER pin (same building as Ritchie's — see note below)
+    lat: 34.93660, lng: -81.03260,  // PLACEHOLDER pin, deliberately offset from Ritchie's above for visibility only — see note above
     sticker: "scoop"
   },
   {
@@ -1602,7 +1594,7 @@ var BUSINESSES = [
     address: "652 Herrons Ferry Road, Suite 113, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93545, lng: -81.02955,  // PLACEHOLDER pin (same building as Tony's/Charlotte Running Company — see note below)
+    lat: 34.93610, lng: -81.03010,  // PLACEHOLDER pin, deliberately offset from Tony's/Charlotte Running Company for visibility only — see note above
     sticker: "blend"
   },
   {
@@ -1615,7 +1607,7 @@ var BUSINESSES = [
     address: "652 Herrons Ferry Road, Apt 101, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93550, lng: -81.02935,  // PLACEHOLDER pin (same building as Tony's/Blend — see note below)
+    lat: 34.93500, lng: -81.02935,  // PLACEHOLDER pin, deliberately offset from Tony's/Blend for visibility only — see note above
     sticker: "crc",
     activity: {
       time: "2:00–4:00 p.m.",
@@ -2150,27 +2142,14 @@ function initLeafletMap(){
     '<div class="popup-sub">' + EVENT.bna.activities + '</div>'
   );
 
-  /* Group businesses that share a building (locationGroup) onto one
-     marker with a chooser popup, so overlapping placeholder pins never
-     hide or block each other — solo businesses just get their own
-     marker as before. */
-  var groups = {};
+  /* One independent marker per business — never combined or clustered,
+     per explicit requirement. Co-located businesses (same street address,
+     different suite) get a small deliberate pixel-level visual offset
+     applied only to their own marker's map position so all six logos
+     stay individually visible and tappable; this offset never touches
+     the business's real `address` field, which is the only thing the
+     Directions button ever reads. */
   BUSINESSES.forEach(function(b){
-    var key = b.locationGroup || b.id;
-    if(!groups[key]) groups[key] = [];
-    groups[key].push(b);
-  });
-
-  Object.keys(groups).forEach(function(key){
-    var members = groups[key];
-    if(members.length === 1){
-      addSoloMarker(members[0]);
-    }else{
-      addGroupMarker(members);
-    }
-  });
-
-  function addSoloMarker(b){
     var stamped = isStamped(b.id);
     var icon = L.divIcon({
       className: "",
@@ -2182,60 +2161,25 @@ function initLeafletMap(){
       iconAnchor: [23,23]
     });
     var marker = L.marker([b.lat, b.lng], { icon: icon }).addTo(leafletMapInstance);
-    var popupHtml = businessPopupRow(b) +
+    var popupHtml =
+      '<div class="popup-row">' +
+        '<img class="popup-logo" src="' + b.logo + '" alt="">' +
+        '<div><div class="popup-title">' + escapeHtml(b.name) + '</div>' +
+        '<div class="popup-sub">' + escapeHtml(b.freebieShort) + '</div></div>' +
+      '</div>' +
       '<a class="popup-link" data-open="' + b.id + '" href="#">View stop &rarr;</a>';
     marker.bindPopup(popupHtml);
-    marker.on("popupopen", function(){ wirePopupLink(b.id); });
-    leafletMarkers[b.id] = marker;
-  }
-
-  function addGroupMarker(members){
-    var avgLat = members.reduce(function(s,b){ return s+b.lat; }, 0) / members.length;
-    var avgLng = members.reduce(function(s,b){ return s+b.lng; }, 0) / members.length;
-    var anyStamped = members.some(function(b){ return isStamped(b.id); });
-    var icon = L.divIcon({
-      className: "",
-      html: '<div class="stop-marker-group ' + (anyStamped?'stamped':'') + '">' +
-              '<span class="stop-marker-count">' + members.length + '</span>' +
-            '</div>',
-      iconSize: [46,46],
-      iconAnchor: [23,23]
-    });
-    var marker = L.marker([avgLat, avgLng], { icon: icon }).addTo(leafletMapInstance);
-    var popupHtml =
-      '<div class="popup-group-title">' + members.length + ' stops at this address</div>' +
-      members.map(function(b){
-        return '<button class="popup-group-row" data-open="' + b.id + '">' +
-          '<img class="popup-logo" src="' + b.logo + '" alt="">' +
-          '<div><div class="popup-title">' + escapeHtml(b.name) + '</div>' +
-          '<div class="popup-sub">' + escapeHtml(b.freebieShort) + '</div></div>' +
-          '<span class="popup-group-chev">' + ICONS.chev + '</span>' +
-        '</button>';
-      }).join("");
-    marker.bindPopup(popupHtml, { maxWidth: 260 });
     marker.on("popupopen", function(){
-      members.forEach(function(b){ wirePopupLink(b.id, "[data-open=\"" + b.id + "\"].popup-group-row"); });
+      var link = document.querySelector('[data-open="' + b.id + '"]');
+      if(link){
+        link.addEventListener("click", function(e){
+          e.preventDefault();
+          navigate("#/passport/" + b.id);
+        });
+      }
     });
-    members.forEach(function(b){ leafletMarkers[b.id] = marker; });
-  }
-
-  function businessPopupRow(b){
-    return '<div class="popup-row">' +
-      '<img class="popup-logo" src="' + b.logo + '" alt="">' +
-      '<div><div class="popup-title">' + escapeHtml(b.name) + '</div>' +
-      '<div class="popup-sub">' + escapeHtml(b.freebieShort) + '</div></div>' +
-    '</div>';
-  }
-
-  function wirePopupLink(id, selector){
-    var link = document.querySelector(selector || ('[data-open="' + id + '"]'));
-    if(link){
-      link.addEventListener("click", function(e){
-        e.preventDefault();
-        navigate("#/passport/" + id);
-      });
-    }
-  }
+    leafletMarkers[b.id] = marker;
+  });
 }
 
 /* ---------- PAGE: PASSPORT LIST ---------- */

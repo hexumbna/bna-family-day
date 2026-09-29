@@ -1502,7 +1502,7 @@ var EVENT = {
     activities: "Games · Face painting · Kids' activities · Mingling",
     address: "596 Herrons Ferry Road, Rock Hill, SC 29730",
     hasExactAddress: true,
-    lat: 34.9356, lng: -81.0296  // PLACEHOLDER pin — Directions uses the exact address above, not this (see geocoding note below)
+    lat: 34.988301, lng: -80.976828  // Visual-offset from the user-confirmed Riverwalk reference area (596 Herrons Ferry Road itself not yet independently geocoded)
   }
 };
 
@@ -1516,34 +1516,33 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
   supabaseAnonKey: "sb_publishable_f3uNKr3iO3Gy4WtFAPtjcw_WWYxOGSQ"  // Supabase "publishable" key — safe to expose in frontend code
 };
 
-/* NOTE ON MAP PIN PLACEHOLDERS — READ BEFORE CHANGING:
-   This environment has NO network access to any geocoding or mapping
-   service (Google/Nominatim/Komoot/etc. are all blocked at the network
-   level here) — confirmed by direct testing, not an assumption. Every
-   lat/lng below is therefore an UNVERIFIED PLACEHOLDER, not a real
-   geocoded location, and should not be trusted for anything visual.
+/* NOTE ON MAP PIN ACCURACY:
+   Blend Riverwalk's coordinate (34.983125, -80.972131) was given directly
+   by the event organizer as a verified, confirmed location — it is real,
+   not a placeholder. Tony's and Charlotte Running Company share that same
+   building (652 Herrons Ferry Road, different suites), so their pins are
+   anchored right next to Blend's verified point with a small deliberate
+   visual offset (per explicit requirement) just so all three logos stay
+   individually visible and tappable — this does NOT mean their true
+   locations differ from Blend's; it's a display-only nudge.
 
-   Tony's Cantina, Blend Riverwalk, and Charlotte Running Company share
-   one real street address (652 Herrons Ferry Road — different suites in
-   the same building). Ritchie's and Inside Scoop Creamery share a
-   different real street address (819 Terrace Park). Per explicit
-   requirement, each business still gets its OWN independent, always-
-   clickable map marker — co-located businesses just have a small
-   deliberate visual offset applied to their placeholder pin so the
-   markers don't sit exactly on top of each other. `locationGroup` below
-   records which businesses actually share a real address (useful
-   context for a human reading this file); it does not drive any map
-   clustering logic anymore.
+   BNA, Ritchie's, and Inside Scoop Creamery do not yet have an
+   independently verified coordinate. They're anchored near the general
+   Rock Hill Riverwalk reference point the organizer confirmed
+   (34.988001, -80.976528), with small offsets between them — this puts
+   them in the right neighborhood, but it is NOT the same as geocoding
+   their specific street addresses (596 Herrons Ferry Road and 819
+   Terrace Park). This environment has no network access to any
+   geocoding/mapping service to do that verification itself (confirmed by
+   direct testing, not an assumption) — get those from Google Maps
+   (search the address, right-click/long-press the pin, the lat/lng is
+   the top item shown) and replace the values below for full accuracy.
 
    The Directions button for every business always routes by its own
-   exact, distinct `address` string (below), completely independent of
-   these lat/lng placeholders — that's what actually matters for getting
-   someone to the right door, and it's already correct today.
-
-   TO FIX THE MAP FOR REAL: get the actual coordinates from Google Maps
-   (search each address, right-click/long-press the pin, the lat/lng is
-   the top item in the menu that appears) for all 6 locations (BNA +
-   5 businesses) and replace every lat/lng value below with them. */
+   exact, distinct `address` string, completely independent of these
+   lat/lng values — that's already fully correct today regardless of
+   map-pin precision. `locationGroup` records which businesses share a
+   real address; it's informational only and doesn't drive map logic. */
 var BUSINESSES = [
   {
     id: "tonys",
@@ -1552,10 +1551,10 @@ var BUSINESSES = [
     freebie: "Freebie details coming soon!",
     freebieShort: "Freebie details coming soon!",
     logo: LOGO_TONY,
-    address: "652 Herrons Ferry Road, Apt 109, Rock Hill, SC 29730",
+    address: "652 Herrons Ferry Road, Suite 109, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93590, lng: -81.02890,  // PLACEHOLDER pin, deliberately offset from Blend/Charlotte Running Company below for visibility only — see note above
+    lat: 34.983625, lng: -80.972431,  // Visual-offset from Blend's user-verified point (same building) — see note above
     sticker: "tonys"
   },
   {
@@ -1565,10 +1564,10 @@ var BUSINESSES = [
     freebie: "Two slices of pizza or fries — per participant.",
     freebieShort: "Pizza or fries · per participant",
     logo: LOGO_RICHIE,
-    address: "819 Terrace Park, Ste 103, Rock Hill, SC 29730",
+    address: "819 Terrace Park, Suite 103, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.93740, lng: -81.03140,  // PLACEHOLDER pin, deliberately offset from Inside Scoop below for visibility only — see note above
+    lat: 34.987701, lng: -80.976228,  // Visual-offset from the user-confirmed Riverwalk reference area (819 Terrace Park itself not yet independently geocoded) — see note above
     sticker: "richies"
   },
   {
@@ -1578,10 +1577,10 @@ var BUSINESSES = [
     freebie: "Ice cream or waffle cone, up to $6, plus a $1-off coupon — per participant.",
     freebieShort: "Ice cream up to $6 · per participant",
     logo: LOGO_SCOOP,
-    address: "819 Terrace Park, Rock Hill, SC 29730",
+    address: "819 Terrace Park, Suite 101, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.93660, lng: -81.03260,  // PLACEHOLDER pin, deliberately offset from Ritchie's above for visibility only — see note above
+    lat: 34.988101, lng: -80.976928,  // Visual-offset from the user-confirmed Riverwalk reference area (819 Terrace Park itself not yet independently geocoded) — see note above
     sticker: "scoop"
   },
   {
@@ -1594,7 +1593,7 @@ var BUSINESSES = [
     address: "652 Herrons Ferry Road, Suite 113, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93610, lng: -81.03010,  // PLACEHOLDER pin, deliberately offset from Tony's/Charlotte Running Company for visibility only — see note above
+    lat: 34.983125, lng: -80.972131,  // VERIFIED by user directly — this is the real, confirmed coordinate for this building
     sticker: "blend"
   },
   {
@@ -1604,10 +1603,10 @@ var BUSINESSES = [
     freebie: "Your choice of beer, soda, or wine — 2 drinks per participant.",
     freebieShort: "2 drinks · per participant",
     logo: LOGO_CRC,
-    address: "652 Herrons Ferry Road, Apt 101, Rock Hill, SC 29730",
+    address: "652 Herrons Ferry Road, Suite 101, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "herrons-ferry-652",
-    lat: 34.93500, lng: -81.02935,  // PLACEHOLDER pin, deliberately offset from Tony's/Blend for visibility only — see note above
+    lat: 34.982725, lng: -80.971831,  // Visual-offset from Blend's user-verified point (same building) — see note above
     sticker: "crc",
     activity: {
       time: "2:00–4:00 p.m.",

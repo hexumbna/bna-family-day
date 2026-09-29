@@ -1502,7 +1502,7 @@ var EVENT = {
     activities: "Games · Face painting · Kids' activities · Mingling",
     address: "596 Herrons Ferry Road, Rock Hill, SC 29730",
     hasExactAddress: true,
-    lat: 34.988301, lng: -80.976828  // Visual-offset from the user-confirmed Riverwalk reference area (596 Herrons Ferry Road itself not yet independently geocoded)
+    lat: 34.983616, lng: -80.972824  // VERIFIED by user directly (from precise Google Maps coordinates)
   }
 };
 
@@ -1517,31 +1517,26 @@ window.FAMILY_DAY_CONFIG = window.FAMILY_DAY_CONFIG || {
 };
 
 /* NOTE ON MAP PIN ACCURACY:
-   Blend Riverwalk's coordinate (34.983125, -80.972131) was given directly
-   by the event organizer as a verified, confirmed location — it is real,
-   not a placeholder. Tony's and Charlotte Running Company share that same
-   building (652 Herrons Ferry Road, different suites), so their pins are
-   anchored right next to Blend's verified point with a small deliberate
-   visual offset (per explicit requirement) just so all three logos stay
-   individually visible and tappable — this does NOT mean their true
-   locations differ from Blend's; it's a display-only nudge.
+   Blend Riverwalk (34.983125, -80.972131), BNA (34.983616, -80.972824),
+   and Inside Scoop Creamery (34.9829207, -80.9727182) were all given
+   directly by the event organizer as verified, confirmed coordinates —
+   they are real, not placeholders.
 
-   BNA, Ritchie's, and Inside Scoop Creamery do not yet have an
-   independently verified coordinate. They're anchored near the general
-   Rock Hill Riverwalk reference point the organizer confirmed
-   (34.988001, -80.976528), with small offsets between them — this puts
-   them in the right neighborhood, but it is NOT the same as geocoding
-   their specific street addresses (596 Herrons Ferry Road and 819
-   Terrace Park). This environment has no network access to any
-   geocoding/mapping service to do that verification itself (confirmed by
-   direct testing, not an assumption) — get those from Google Maps
-   (search the address, right-click/long-press the pin, the lat/lng is
-   the top item shown) and replace the values below for full accuracy.
+   Tony's and Charlotte Running Company share Blend's building (652
+   Herrons Ferry Road, different suites), so their pins sit right next to
+   Blend's verified point with a small deliberate visual offset (per
+   explicit requirement) just so all three logos stay individually
+   visible and tappable — this does NOT mean their true location differs
+   from Blend's; it's a display-only nudge, never used for Directions.
+
+   Ritchie's shares Inside Scoop's building (819 Terrace Park, different
+   suite), so it's anchored the same way, right next to Inside Scoop's
+   verified point with a small visual offset.
 
    The Directions button for every business always routes by its own
    exact, distinct `address` string, completely independent of these
-   lat/lng values — that's already fully correct today regardless of
-   map-pin precision. `locationGroup` records which businesses share a
+   lat/lng values — that was already fully correct before this pass and
+   is untouched by it. `locationGroup` records which businesses share a
    real address; it's informational only and doesn't drive map logic. */
 var BUSINESSES = [
   {
@@ -1567,7 +1562,7 @@ var BUSINESSES = [
     address: "819 Terrace Park, Suite 103, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.987701, lng: -80.976228,  // Visual-offset from the user-confirmed Riverwalk reference area (819 Terrace Park itself not yet independently geocoded) — see note above
+    lat: 34.9833207, lng: -80.9730182,  // Visual-offset from Inside Scoop's user-verified point (same building) — see note above
     sticker: "richies"
   },
   {
@@ -1580,7 +1575,7 @@ var BUSINESSES = [
     address: "819 Terrace Park, Suite 101, Rock Hill, SC 29730",
     hasExactAddress: true,
     locationGroup: "terrace-park-819",
-    lat: 34.988101, lng: -80.976928,  // Visual-offset from the user-confirmed Riverwalk reference area (819 Terrace Park itself not yet independently geocoded) — see note above
+    lat: 34.9829207, lng: -80.9727182,  // VERIFIED by user directly (from precise Google Maps coordinates)
     sticker: "scoop"
   },
   {

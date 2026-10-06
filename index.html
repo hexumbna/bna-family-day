@@ -1073,6 +1073,8 @@ img{ max-width: 100%; display:block; }
 }
 .detail-name{ font-size: 22px; margin-top: 18px; }
 .detail-freebie{ color: var(--ink); font-size: 15px; margin-top:8px; line-height:1.5; }
+.detail-choices{ margin:8px 0 0; padding-left:20px; color:var(--ink); font-size:15px; line-height:1.5; }
+.detail-choices li{ margin-top:6px; }
 
 .activity-card{
   margin-top:14px; padding:14px 16px;
@@ -1562,8 +1564,13 @@ var BUSINESSES = [
     id: "tonys",
     order: 1,
     name: "Tony's Cantina",
-    freebie: "Freebie details coming soon!",
-    freebieShort: "Freebie details coming soon!",
+    freebie: "Choose ONE per participant:",
+    freebieShort: "Choose 1: esquites, flautas or churros",
+    choices: [
+      "Esquites in a cup",
+      "Flautas – 1 chicken + 1 ground beef, served in a cup with sour cream and guacamole",
+      "Churros filled with cajeta"
+    ],
     logo: LOGO_TONY,
     address: "652 Herrons Ferry Road, Suite 109, Rock Hill, SC 29730",
     hasExactAddress: true,
@@ -2250,6 +2257,7 @@ function renderBusinessDetail(id){
   '<div class="page" style="--stop-color:' + b.color + ';">' +
     '<h2 class="detail-name">' + escapeHtml(b.name) + '</h2>' +
     '<p class="detail-freebie">' + escapeHtml(b.freebie) + '</p>' +
+    (b.choices ? '<ul class="detail-choices">' + b.choices.map(function(ch){ return '<li>' + escapeHtml(ch) + '</li>'; }).join('') + '</ul>' : '') +
     (b.activity ?
     '<div class="activity-card">' +
       '<div class="activity-icons">' + ICONS.music + ICONS.cornhole + '</div>' +
